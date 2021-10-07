@@ -1,10 +1,12 @@
 const express = require('express');
-
 const app = express();  
+const jwt = require('jsonwebtoken');
 
 app.use(express.json());  
 
 app.use(express.json());
+
+{/*SampleData*/}
 
 const children = [
         {
@@ -210,8 +212,29 @@ const districts = [
         }
     ];
 
-app.get('/', (req, res) => {
-        res.send('index.html');
+const count = 0;
+
+app.get('/', (req, res)=>{
+        res.render("index");        
+});
+
+
+app.post('/api/user/login', (req, res) => {
+        const user ={
+            id: count+1,
+            username:req.body.username,
+            password: req.body.password
+        };
+        jwt.sign({user}, 'random', (err,token)=>{
+                res.json({
+                    token
+                });
+        });
+});
+
+
+app.get('/api/user/logout/:token', (req, res)=>{
+        
 });
 
 app.get('/api/children', (req, res)=>{
